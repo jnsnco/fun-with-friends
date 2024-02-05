@@ -1,3 +1,4 @@
+import { PUBLIC_PARTYKIT_HOST } from '../../app.config'
 import { useState, useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import { useFireproof, Doc, DocFileMeta } from 'use-fireproof'
@@ -8,23 +9,23 @@ import { useForm, FieldValues } from 'react-hook-form'
 
 import usePartySocket from 'partysocket/react'
 
-import catImage from '../assets/cat.png'
+import avatarImage from '../assets/avatar.png'
 import { ImageBubble, ChatBubble, UserBubble } from '../components/ChatBubbles'
 
-import { useAuth } from '@clerk/clerk-react'
+//import { useAuth } from '@clerk/clerk-react'
 
 type MsgData = { _id: string; msg?: string; prompt?: string; done?: boolean; sent: number }
 type MsgDoc = Doc & MsgData
 
-const PUBLIC_PARTYKIT_HOST = import.meta.env.VITE_PUBLIC_PARTYKIT_HOST
-
 export function Chat() {
-  const { id } = useParams<{ id: string }>()
+  const { id, persona } = useParams<{ id: string; persona: string }>()
   const dbName = id
+  const currPersona = persona
   const { register, handleSubmit, resetField } = useForm()
   const { database, useLiveQuery } = useFireproof(dbName)
 
-  const { getToken } = useAuth()
+  //const { getToken } = useAuth()
+  //console.log('persona from URL', currPersona)
 
   connect.partykit(database, PUBLIC_PARTYKIT_HOST)
 
@@ -61,12 +62,12 @@ export function Chat() {
   const socket = usePartySocket({
     host: PUBLIC_PARTYKIT_HOST,
     room: dbName!,
-    query: async () => ({
-      token: await getToken()
-    }),
-    onOpen() {
+    //query: async () => ({
+    //  token: await getToken()
+    //}),
+    //onOpen() {
       // console.log('open', e)
-    },
+    //},
     onMessage(event: MessageEvent<string>) {
       const message = JSON.parse(event.data)
       if (message.msgId) {
@@ -138,7 +139,7 @@ export function Chat() {
   return (
     <>
       <div className="fixed top-0 w-full bg-gray-300 p-4">
-        <h1>Cat Chat</h1>
+        <h1>Fun with Friends</h1>
       </div>
       <div
         ref={scrollableDivRef}
@@ -165,7 +166,7 @@ export function Chat() {
           } else {
             return (
               <ChatBubble
-                imgSrc={catImage}
+                imgSrc={avatarImage}
                 key={message._id}
                 message={message.msg as string}
                 when={new Date(message.sent).toLocaleString()}
@@ -175,10 +176,10 @@ export function Chat() {
         })}
 
         <ChatBubble
-          imgSrc={catImage}
-          message="Hi, I'm Fluffy, welcome to cat chat. You can ask 'meow' anything. What do you want to know?"
+          imgSrc={avatarImage}
+          message="Welcome. Who would you like to speak with today?"
         />
-        <ImageBubble imgSrc={catImage} alt="Welcome photo" />
+        <ImageBubble imgSrc={avatarImage} alt="Welcome photo" />
       </div>
 
       <div className="fixed bottom-0 w-full bg-gray-300 p-4">

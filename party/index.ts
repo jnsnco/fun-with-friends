@@ -1,17 +1,19 @@
 import type * as Party from 'partykit/server'
-import { verifyToken } from "@clerk/backend";
-
+//import { verifyToken } from "@clerk/backend";
+//import { DEFAULT_CLERK_ENDPOINT } from '../app.config'
+import { OpenAI_API } from '../app.config'
 import { AI } from './ai'
 
-const DEFAULT_CLERK_ENDPOINT = "https://divine-mule-93.clerk.accounts.dev";
+console.log('OpenAI key:', OpenAI_API.key, '\nOpenAI org:', OpenAI_API.org)
 
 export default class Server implements Party.Server {
   ai: AI
 
   constructor(readonly party: Party.Party) {
-    this.ai = new AI(this.party.env['OPEN_AI_API_KEY'] as string)
+    this.ai = new AI("dog", OpenAI_API.key, OpenAI_API.org)
   }
 
+/*
   static async onBeforeConnect(request: Party.Request, lobby: Party.Lobby) {
     try {
       // get authentication server url from environment variables (optional)
@@ -30,6 +32,7 @@ export default class Server implements Party.Server {
       return new Response("Unauthorized", { status: 401 });
     }
   }
+*/
 
   onConnect(conn: Party.Connection, ctx: Party.ConnectionContext) {
     // A websocket just connected!

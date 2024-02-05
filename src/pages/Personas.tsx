@@ -3,7 +3,7 @@ import avatar2Image from '../assets/avatar2.png'
 
 import { ChatBubble, ImageBubble } from '../components/ChatBubbles'
 
-export function Profile() {
+export function Personas() {
   return (
     <div className="prose">
       <div className="bg-gray-300 p-4">
