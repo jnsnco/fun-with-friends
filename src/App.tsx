@@ -42,10 +42,14 @@ function App() {
 
 export default App
 
-function ChatRedirect() {
+function ChatRedirect(persona?: string) {
   const newId = Math.random().toString(36).substring(2)
   useEffect(() => {
-    window.location.href = `/chat/${newId}`
+    if (persona === undefined) {
+      window.location.href = `/chat/${newId}`
+    } else {
+      window.location.href = `/chat/${persona}/${newId}`
+    }
   }, [])
 }
 
