@@ -10,7 +10,9 @@ export default class Server implements Party.Server {
   ai: AI
 
   constructor(readonly party: Party.Party) {
-    this.ai = new AI("dog", OpenAI_API.key, OpenAI_API.org)
+    var tmparr = this.party.id.split('-')
+    console.log('selected persona:', tmparr[1])
+    this.ai = new AI(tmparr[1], OpenAI_API.key, OpenAI_API.org)
   }
 
 /*

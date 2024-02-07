@@ -19,8 +19,10 @@ type MsgDoc = Doc & MsgData
 
 export function Chat() {
   const { id, persona } = useParams<{ id: string; persona: string }>()
-  const dbName = id
-  const currPersona = persona
+  if ( persona === undefined ) {
+    persona = 'wiz'
+  }
+  const dbName = id + '-' + persona
   const { register, handleSubmit, resetField } = useForm()
   const { database, useLiveQuery } = useFireproof(dbName)
 

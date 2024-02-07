@@ -5,6 +5,8 @@ import { Home } from './pages/Home'
 import { Personas } from './pages/Personas'
 import { Profile } from './pages/Profile'
 import { Chat } from './pages/Chat'
+import { DEFAULT_PERSONA } from '../app.config'
+
 //import { ClerkProvider, SignedIn, SignedOut, RedirectToSignIn } from '@clerk/clerk-react'
 
 //const CLERK_PUBLISHABLE_KEY = import.meta.env.VITE_PUBLIC_CLERK_PUBLISHABLE_KEY
@@ -42,14 +44,11 @@ function App() {
 
 export default App
 
-function ChatRedirect(persona?: string) {
+function ChatRedirect() {
   const newId = Math.random().toString(36).substring(2)
+  const persona = DEFAULT_PERSONA
   useEffect(() => {
-    if (persona === undefined) {
-      window.location.href = `/chat/${newId}`
-    } else {
-      window.location.href = `/chat/${persona}/${newId}`
-    }
+    window.location.href = `/chat/${persona}/${newId}`
   }, [])
 }
 
