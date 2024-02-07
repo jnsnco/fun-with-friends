@@ -1,3 +1,5 @@
+export const DEFAULT_PERSONA = "cat"
+
 export const PUBLIC_PARTYKIT_HOST = "127.0.0.1:1999"
 
 export const DEFAULT_CLERK_ENDPOINT = "YOUR_CLERK_URL_HERE"
